@@ -27,6 +27,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4.3.3
         version: 4.3.3
+      '@types/chrome':
+        specifier: ^0.2.5
+        version: 0.2.5
       '@types/node':
         specifier: ^20.11.0
         version: 20.19.43
@@ -38,7 +41,7 @@ importers:
         version: 18.3.0
       '@wxt-dev/module-react':
         specifier: ~1.1.0
-        version: 1.1.0(vite@5.3.4(@types/node@20.19.43)(lightningcss@1.32.0))(wxt@0.19.0(@types/node@20.19.43)(lightningcss@1.32.0)(rollup@4.62.4))
+        version: 1.1.0(vite@5.3.4(@types/node@20.19.43)(lightningcss@1.32.0))(wxt@0.19.0(@types/chrome@0.2.5)(@types/node@20.19.43)(lightningcss@1.32.0)(rollup@4.62.4))
       fake-indexeddb:
         specifier: ^6.2.5
         version: 6.2.5
@@ -59,7 +62,7 @@ importers:
         version: 2.0.0(@types/node@20.19.43)(lightningcss@1.32.0)
       wxt:
         specifier: ~0.19.0
-        version: 0.19.0(@types/node@20.19.43)(lightningcss@1.32.0)(rollup@4.62.4)
+        version: 0.19.0(@types/chrome@0.2.5)(@types/node@20.19.43)(lightningcss@1.32.0)(rollup@4.62.4)
 
 packages:
 
@@ -925,8 +928,20 @@ packages:
   '@types/babel__traverse@7.28.0':
     resolution: {integrity: sha512-8PvcXf70gTDZBgt9ptxJ8elBeBjcLOAcOtoO/mPJjtji1+CdGbHgm77om1GrsPxsiE+uXIpNSK64UYaIwQXd4Q==}
 
+  '@types/chrome@0.2.5':
+    resolution: {integrity: sha512-DwLFgwj3D0zjxRBhQ3610RBso2g+yI1cakq/JdIGopZ9Bc5UhQluyfcLGZwivFE4t2h4b2QZYZhPV7KylExSbA==}
+
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
+
+  '@types/filesystem@0.0.36':
+    resolution: {integrity: sha512-vPDXOZuannb9FZdxgHnqSwAG/jvdGM8Wq+6N4D/d80z+D4HWH+bItqsZaVRQykAn6WEVeEkLm2oQigyHtgb0RA==}
+
+  '@types/filewriter@0.0.33':
+    resolution: {integrity: sha512-xFU8ZXTw4gd358lb2jw25nxY9QAgqn2+bKKjKOYfNCzN4DKCFetK7sPtrlpg66Ywe3vWY9FNxprZawAh9wfJ3g==}
+
+  '@types/har-format@1.2.16':
+    resolution: {integrity: sha512-fluxdy7ryD3MV6h8pTfTYpy/xQzCFC7m89nOH9y94cNqJ1mDIDPut7MnRHI3F6qRmh/cT2fUjG1MLdCNb4hE9A==}
 
   '@types/minimatch@3.0.5':
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
@@ -3479,7 +3494,20 @@ snapshots:
     dependencies:
       '@babel/types': 7.29.8
 
+  '@types/chrome@0.2.5':
+    dependencies:
+      '@types/filesystem': 0.0.36
+      '@types/har-format': 1.2.16
+
   '@types/estree@1.0.9': {}
+
+  '@types/filesystem@0.0.36':
+    dependencies:
+      '@types/filewriter': 0.0.33
+
+  '@types/filewriter@0.0.33': {}
+
+  '@types/har-format@1.2.16': {}
 
   '@types/minimatch@3.0.5': {}
 
@@ -3557,10 +3585,10 @@ snapshots:
 
   '@webext-core/match-patterns@1.1.0': {}
 
-  '@wxt-dev/module-react@1.1.0(vite@5.3.4(@types/node@20.19.43)(lightningcss@1.32.0))(wxt@0.19.0(@types/node@20.19.43)(lightningcss@1.32.0)(rollup@4.62.4))':
+  '@wxt-dev/module-react@1.1.0(vite@5.3.4(@types/node@20.19.43)(lightningcss@1.32.0))(wxt@0.19.0(@types/chrome@0.2.5)(@types/node@20.19.43)(lightningcss@1.32.0)(rollup@4.62.4))':
     dependencies:
       '@vitejs/plugin-react': 4.4.1(vite@5.3.4(@types/node@20.19.43)(lightningcss@1.32.0))
-      wxt: 0.19.0(@types/node@20.19.43)(lightningcss@1.32.0)(rollup@4.62.4)
+      wxt: 0.19.0(@types/chrome@0.2.5)(@types/node@20.19.43)(lightningcss@1.32.0)(rollup@4.62.4)
     transitivePeerDependencies:
       - supports-color
       - vite
@@ -5405,7 +5433,7 @@ snapshots:
     dependencies:
       is-wsl: 3.1.1
 
-  wxt@0.19.0(@types/node@20.19.43)(lightningcss@1.32.0)(rollup@4.62.4):
+  wxt@0.19.0(@types/chrome@0.2.5)(@types/node@20.19.43)(lightningcss@1.32.0)(rollup@4.62.4):
     dependencies:
       '@aklinker1/rollup-plugin-visualizer': 5.12.0(rollup@4.62.4)
       '@types/webextension-polyfill': 0.10.7
@@ -5447,6 +5475,8 @@ snapshots:
       vite-node: 2.0.0(@types/node@20.19.43)(lightningcss@1.32.0)
       web-ext-run: 0.2.4
       webextension-polyfill: 0.12.0
+    optionalDependencies:
+      '@types/chrome': 0.2.5
     transitivePeerDependencies:
       - '@types/node'
       - canvas

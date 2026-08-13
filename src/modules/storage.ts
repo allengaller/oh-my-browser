@@ -14,7 +14,7 @@ class BookmarkDB extends Dexie {
 
 let dbInstance: BookmarkDB | null = null;
 
-function getDb(): BookmarkDB {
+export function getDb(): BookmarkDB {
   if (!dbInstance) {
     dbInstance = new BookmarkDB();
   }
