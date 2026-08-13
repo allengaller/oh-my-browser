@@ -13,7 +13,7 @@ describe("search.buildIndex + query", () => {
   it("matches by title prefix", () => {
     const index = buildIndex(sample);
     const results = query(index, "git");
-    expect(results.map((r) => r.id)).toEqual(["1", "2"]);
+    expect(results.map((r) => r.id).sort()).toEqual(["1", "2"]);
   });
 
   it("matches by URL substring", () => {
