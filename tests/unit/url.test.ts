@@ -25,14 +25,14 @@ describe("normalizeUrl", () => {
     expect(normalizeUrl("https://example.com/page#section-2")).toBe("https://example.com/page");
   });
 
-  it("preserves query parameters that are not tracking", () => {
+  it("preserves non-tracking query params (sorted)", () => {
     expect(normalizeUrl("https://example.com/search?q=hello&page=2")).toBe(
-      "https://example.com/search?q=hello&page=2",
+      "https://example.com/search?page=2&q=hello",
     );
   });
 
   it("sorts query parameters alphabetically", () => {
-    expect(normalizeUrl("https://example.com?b=2&a=1")).toBe("https://example.com?a=1&b=2");
+    expect(normalizeUrl("https://example.com?b=2&a=1")).toBe("https://example.com/?a=1&b=2");
   });
 
   it("handles invalid URLs gracefully by returning the stripped input", () => {
