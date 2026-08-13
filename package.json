@@ -15,8 +15,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test",
-    "postinstall": "wxt prepare"
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
