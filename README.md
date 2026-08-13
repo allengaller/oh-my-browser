@@ -1,25 +1,31 @@
-# Bookmarkit - Tune Your Bookmark #
-* aka the Coder Bookmarkit project *
+# oh-my-bookmarks
 
-About
------
-Bookmarkit is a handy and powful toolkit for bookmark file.
+A handy bookmark toolkit for coder.
 
-Features
---------
+## Development
 
+```bash
+pnpm install
+pnpm dev
+```
 
-Usage
------
+Load the extension from `.output/chrome-mv3/` in Chrome's extension page.
 
+## Testing
 
-Installation
-------------
+```bash
+pnpm test         # Unit tests
+pnpm test:e2e    # E2E tests
+```
 
+## Build
 
-Donation
---------
+```bash
+pnpm build       # Chrome
+pnpm build:firefox
+pnpm zip         # Pack for store
+```
 
+## License
 
-About apps4coder
-----------------
+MIT
