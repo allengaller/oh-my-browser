@@ -1,2 +1,1 @@
-// Vitest global setup
-// Mock chrome.* APIs if needed in tests
+import "@testing-library/jest-dom/vitest";
