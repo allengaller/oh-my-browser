@@ -12,6 +12,7 @@ A handy bookmark toolkit for coder.
 ## Performance
 
 基于 1,661 条真实书签样本：
+
 - 索引构建：~50ms
 - 查询响应：~5ms
 

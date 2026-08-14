@@ -17,10 +17,7 @@ export function App() {
   }, []);
 
   const index = useMemo(() => buildIndex(bookmarks), [bookmarks]);
-  const results: SearchResult[] = useMemo(
-    () => query(index, queryStr),
-    [index, queryStr],
-  );
+  const results: SearchResult[] = useMemo(() => query(index, queryStr), [index, queryStr]);
 
   // query 变化时重置 selection
   useEffect(() => {

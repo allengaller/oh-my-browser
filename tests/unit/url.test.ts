@@ -16,9 +16,9 @@ describe("normalizeUrl", () => {
   });
 
   it("removes common tracking parameters", () => {
-    expect(
-      normalizeUrl("https://example.com/article?utm_source=tw&id=42&fbclid=abc"),
-    ).toBe("https://example.com/article?id=42");
+    expect(normalizeUrl("https://example.com/article?utm_source=tw&id=42&fbclid=abc")).toBe(
+      "https://example.com/article?id=42",
+    );
   });
 
   it("removes fragment", () => {

@@ -3,10 +3,38 @@ import { buildIndex, query } from "~/modules/search";
 import type { Bookmark } from "~/types/bookmark";
 
 const sample: Bookmark[] = [
-  { id: "1", parentId: "0", title: "GitHub", url: "https://github.com", dateAdded: 1, folderPath: "Dev" },
-  { id: "2", parentId: "0", title: "GitLab", url: "https://gitlab.com", dateAdded: 2, folderPath: "Dev" },
-  { id: "3", parentId: "0", title: "Kubernetes docs", url: "https://kubernetes.io/docs", dateAdded: 3, folderPath: "Dev" },
-  { id: "4", parentId: "0", title: "MDN", url: "https://developer.mozilla.org", dateAdded: 4, folderPath: "Web" },
+  {
+    id: "1",
+    parentId: "0",
+    title: "GitHub",
+    url: "https://github.com",
+    dateAdded: 1,
+    folderPath: "Dev",
+  },
+  {
+    id: "2",
+    parentId: "0",
+    title: "GitLab",
+    url: "https://gitlab.com",
+    dateAdded: 2,
+    folderPath: "Dev",
+  },
+  {
+    id: "3",
+    parentId: "0",
+    title: "Kubernetes docs",
+    url: "https://kubernetes.io/docs",
+    dateAdded: 3,
+    folderPath: "Dev",
+  },
+  {
+    id: "4",
+    parentId: "0",
+    title: "MDN",
+    url: "https://developer.mozilla.org",
+    dateAdded: 4,
+    folderPath: "Web",
+  },
 ];
 
 describe("search.buildIndex + query", () => {

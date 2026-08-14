@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# WXT/build artifacts
+.wxt/
+.output/
+
+# Build artifacts
+dist/
+*.zip
+*.crx
+*.xpi
+
+# Test artifacts
+coverage/
+playwright-report/
+test-results/
+
+# Archived legacy code (not actively maintained)
+archive/
+
+# Test fixtures (raw data, not code)
+tests/fixtures/
+
+# Lockfiles
+pnpm-lock.yaml
+
+# Design / planning docs (Markdown, not code)
+docs/superpowers/plans/
+docs/superpowers/specs/

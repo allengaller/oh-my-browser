@@ -7,7 +7,11 @@ test.describe("oh-my-bookmarks popup", () => {
     if (!sw) throw new Error("Service worker not found");
 
     // 模拟用户操作：直接打开 popup HTML
-    await page.goto("chrome-extension://" + (await sw.url()).match(/chrome-extension:\/\/([a-z]+)/)![1] + "/popup.html");
+    await page.goto(
+      "chrome-extension://" +
+        (await sw.url()).match(/chrome-extension:\/\/([a-z]+)/)![1] +
+        "/popup.html",
+    );
 
     // 等待搜索框
     const input = page.getByPlaceholder(/search bookmarks/i);

@@ -14,7 +14,7 @@ export default defineConfig({
     permissions: ["bookmarks", "storage", "tabs"],
     host_permissions: ["<all_urls>"],
     commands: {
-      "_execute_action": {
+      _execute_action: {
         suggested_key: {
           default: "Ctrl+Shift+K",
           mac: "Command+Shift+K",
