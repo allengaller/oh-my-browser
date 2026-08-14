@@ -1,30 +1,51 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, chromium } from "@playwright/test";
+import { mkdtempSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+
+// MV3 service workers require a persistent browser context. The default
+// Playwright Test `chromium.launch()` flow uses a non-persistent context
+// and explicitly rejects `--user-data-dir`. We must call
+// `chromium.launchPersistentContext()` directly.
+const userDataDir = mkdtempSync(join(tmpdir(), "playwright-omb-"));
+const extensionPath = join(process.cwd(), ".output/chrome-mv3");
 
 test.describe("oh-my-bookmarks popup", () => {
-  test("opens, searches, and navigates", async ({ page, context }) => {
-    // 打开 popup（通过 service worker 触发）
-    const sw = context.serviceWorkers()[0];
-    if (!sw) throw new Error("Service worker not found");
+  test("opens, searches, and navigates", async () => {
+    const context = await chromium.launchPersistentContext(userDataDir, {
+      headless: true,
+      args: [
+        "--disable-extensions-except=" + extensionPath,
+        "--load-extension=" + extensionPath,
+      ],
+    });
 
-    // 模拟用户操作：直接打开 popup HTML
-    await page.goto(
-      "chrome-extension://" +
-        (await sw.url()).match(/chrome-extension:\/\/([a-z]+)/)![1] +
-        "/popup.html",
-    );
+    try {
+      // MV3 service workers register asynchronously after the extension loads.
+      // Wait for it explicitly instead of polling context.serviceWorkers().
+      const sw = await context.waitForEvent("serviceworker", { timeout: 15000 });
 
-    // 等待搜索框
-    const input = page.getByPlaceholder(/search bookmarks/i);
-    await expect(input).toBeVisible({ timeout: 10000 });
+      // Open the popup by navigating to its HTML directly (bypassing the
+      // browser action click, which is unreliable in headless mode).
+      const page = await context.newPage();
+      const extensionId = sw.url().match(/chrome-extension:\/\/([a-z]+)/)![1];
+      await page.goto(`chrome-extension://${extensionId}/popup.html`);
 
-    // 输入查询
-    await input.fill("kubernetes");
+      // Wait for search input
+      const input = page.getByPlaceholder(/search bookmarks/i);
+      await expect(input).toBeVisible({ timeout: 10000 });
 
-    // 等待结果
-    await page.waitForTimeout(500);
+      // Type query
+      await input.fill("kubernetes");
 
-    // 验证至少一个结果
-    const items = page.locator(".cursor-pointer");
-    await expect(items.first()).toBeVisible({ timeout: 5000 });
+      // Wait for results to render (debounced in the UI)
+      await page.waitForTimeout(500);
+
+      // Verify at least one result is visible
+      const items = page.locator(".cursor-pointer");
+      await expect(items.first()).toBeVisible({ timeout: 5000 });
+    } finally {
+      await context.close();
+    }
   });
 });
