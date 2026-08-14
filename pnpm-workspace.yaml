@@ -2,5 +2,10 @@
 # to a version compatible with the vite version shipped by wxt@0.19 (vite ^5).
 # Without this override, pnpm picks @vitejs/plugin-react@6.x, which requires
 # vite ^8 and breaks `wxt prepare`.
+#
+# The `packages: []` field is required by pnpm 9 (used in CI) when this file
+# exists. An empty list keeps the repo as a single-package project while
+# making the overrides directive valid.
+packages: []
 overrides:
   "@vitejs/plugin-react": "^4.4.1"
