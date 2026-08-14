@@ -14,10 +14,7 @@ test.describe("oh-my-bookmarks popup", () => {
   test("opens, searches, and navigates", async () => {
     const context = await chromium.launchPersistentContext(userDataDir, {
       headless: true,
-      args: [
-        "--disable-extensions-except=" + extensionPath,
-        "--load-extension=" + extensionPath,
-      ],
+      args: ["--disable-extensions-except=" + extensionPath, "--load-extension=" + extensionPath],
     });
 
     try {
