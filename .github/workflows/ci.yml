@@ -24,6 +24,9 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: Prepare WXT types
+        run: pnpm exec wxt prepare
+
       - name: Type check
         run: pnpm compile
 
@@ -53,6 +56,9 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+
+      - name: Prepare WXT types
+        run: pnpm exec wxt prepare
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
