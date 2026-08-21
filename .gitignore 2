@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# WXT
+.wxt/
+.output/
+
+# Build artifacts
+dist/
+*.zip
+*.crx
+*.xpi
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test
+coverage/
+playwright-report/
+test-results/
+
+# Logs
+*.log
