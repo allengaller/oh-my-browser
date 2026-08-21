@@ -1,6 +1,0 @@
-# Reserved for future monorepo expansion. Currently pins @vitejs/plugin-react
-# to a version compatible with the vite version shipped by wxt@0.19 (vite ^5).
-# Without this override, pnpm picks @vitejs/plugin-react@6.x, which requires
-# vite ^8 and breaks `wxt prepare`.
-overrides:
-  "@vitejs/plugin-react": "^4.4.1"
