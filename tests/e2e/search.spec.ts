@@ -13,7 +13,7 @@ const extensionPath = join(process.cwd(), ".output/chrome-mv3");
 test.describe("oh-my-bookmarks popup", () => {
   test("opens, searches, and navigates", async () => {
     const context = await chromium.launchPersistentContext(userDataDir, {
-      headless: true,
+      headless: !process.env.CI,
       args: ["--disable-extensions-except=" + extensionPath, "--load-extension=" + extensionPath],
     });
 
