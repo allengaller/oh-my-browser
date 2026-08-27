@@ -35,6 +35,23 @@ test.describe("oh-my-bookmarks popup", () => {
       const input = page.getByPlaceholder(/search bookmarks/i);
       await expect(input).toBeVisible({ timeout: 10000 });
 
+      // CI: fresh profile has no bookmarks; seed test data via service worker
+      await sw.evaluate(async (): Promise<void> => {
+        const bookmarks = [
+          { title: "Kubernetes Documentation", url: "https://kubernetes.io/docs/" },
+          { title: "Kubernetes GitHub", url: "https://github.com/kubernetes/kubernetes" },
+          { title: "React Documentation", url: "https://react.dev/" },
+          { title: "TypeScript Handbook", url: "https://www.typescriptlang.org/docs/" },
+          { title: "Playwright Docs", url: "https://playwright.dev/docs/intro" },
+        ];
+        for (const bm of bookmarks) {
+          await chrome.bookmarks.create(bm);
+        }
+      });
+
+      // Allow the extension's sync to process seeded bookmarks
+      await page.waitForTimeout(1000);
+
       // Type query
       await input.fill("kubernetes");
 
