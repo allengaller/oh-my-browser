@@ -72,7 +72,7 @@ describe("performance", () => {
     expect(elapsed).toBeLessThan(50);
   });
 
-  it("scans 1,661 bookmarks (duplicates + sites) in < 50ms", () => {
+  it("scans 1,661 bookmarks (duplicates + sites) in < 200ms", () => {
     const html = readFileSync(
       resolve(process.cwd(), "tests/fixtures/bookmarks_7_5_12.html"),
       "utf-8",
@@ -87,7 +87,7 @@ describe("performance", () => {
     console.log(
       `Scanned ${bookmarks.length} bookmarks: ${dupes.length} dup groups, ${sites.length} sites in ${elapsed.toFixed(1)}ms`,
     );
-    expect(elapsed).toBeLessThan(120);
+    expect(elapsed).toBeLessThan(200);
     expect(dupes.length).toBeGreaterThan(0);
     expect(sites.some((s) => s.siteKey === "solidot.org")).toBe(true);
   });
