@@ -1,3 +1,5 @@
+import { parse } from "tldts";
+
 const TRACKING_PARAMS = new Set([
   "utm_source",
   "utm_medium",
@@ -49,4 +51,18 @@ export function normalizeUrl(input: string): string {
   }
 
   return url.toString();
+}
+
+/**
+ * 提取 URL 的 eTLD+1（可有效注册域名），用于站点聚合。
+ * 例：https://www.solidot.org/story → "solidot.org"
+ *     https://www.bbc.co.uk/news → "bbc.co.uk"
+ * 对无法解析的 URL（非法 URL、localhost 等）返回 null。
+ */
+export function siteKey(input: string): string | null {
+  try {
+    return parse(input).domain ?? null;
+  } catch {
+    return null;
+  }
 }
