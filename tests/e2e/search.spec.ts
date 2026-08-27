@@ -25,6 +25,25 @@ test.describe("oh-my-bookmarks popup", () => {
         sw = await context.waitForEvent("serviceworker", { timeout: 30000 });
       }
 
+      // Fresh profile has no bookmarks; seed test data via service worker
+      // before opening the popup so syncAll() can populate IndexedDB first.
+      const testBookmarks = [
+        { title: "Kubernetes Documentation", url: "https://kubernetes.io/docs/" },
+        { title: "Kubernetes GitHub", url: "https://github.com/kubernetes/kubernetes" },
+        { title: "React Documentation", url: "https://react.dev/" },
+        { title: "TypeScript Handbook", url: "https://www.typescriptlang.org/docs/" },
+        { title: "Playwright Docs", url: "https://playwright.dev/docs/intro" },
+      ];
+      await sw.evaluate(async (bookmarksToAdd: { title: string; url: string }[]) => {
+        for (const bm of bookmarksToAdd) {
+          await chrome.bookmarks.create(bm);
+        }
+      }, testBookmarks);
+
+      // Wait for the extension's subscribeToChanges callback to fire syncAll
+      // and populate IndexedDB before we open the popup.
+      await new Promise((r) => setTimeout(r, 2000));
+
       // Open the popup by navigating to its HTML directly (bypassing the
       // browser action click, which is unreliable in headless mode).
       const page = await context.newPage();
@@ -34,23 +53,6 @@ test.describe("oh-my-bookmarks popup", () => {
       // Wait for search input
       const input = page.getByPlaceholder(/search bookmarks/i);
       await expect(input).toBeVisible({ timeout: 10000 });
-
-      // CI: fresh profile has no bookmarks; seed test data via service worker
-      await sw.evaluate(async (): Promise<void> => {
-        const bookmarks = [
-          { title: "Kubernetes Documentation", url: "https://kubernetes.io/docs/" },
-          { title: "Kubernetes GitHub", url: "https://github.com/kubernetes/kubernetes" },
-          { title: "React Documentation", url: "https://react.dev/" },
-          { title: "TypeScript Handbook", url: "https://www.typescriptlang.org/docs/" },
-          { title: "Playwright Docs", url: "https://playwright.dev/docs/intro" },
-        ];
-        for (const bm of bookmarks) {
-          await chrome.bookmarks.create(bm);
-        }
-      });
-
-      // Allow the extension's sync to process seeded bookmarks
-      await page.waitForTimeout(1000);
 
       // Type query
       await input.fill("kubernetes");
