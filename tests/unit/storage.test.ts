@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import "fake-indexeddb/auto";
-import { saveBookmarks, getAllBookmarks, clear, _resetDb } from "~/modules/storage";
+import { saveBookmarks, getAllBookmarks, clear, _resetDb } from "~/lib/storage";
 import type { Bookmark } from "~/types/bookmark";
 
 const sample: Bookmark[] = [

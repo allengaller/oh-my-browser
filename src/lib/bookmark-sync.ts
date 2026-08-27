@@ -1,4 +1,4 @@
-import { getDb } from "~/modules/storage";
+import { getDb } from "~/lib/storage";
 import type { Bookmark, ChromeBookmarkNode } from "~/types/bookmark";
 
 /**

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import "fake-indexeddb/auto";
-import { getAllBookmarks, _resetDb } from "~/modules/storage";
-import { syncAll } from "~/modules/bookmark-sync";
+import { getAllBookmarks, _resetDb } from "~/lib/storage";
+import { syncAll } from "~/lib/bookmark-sync";
 import type { ChromeBookmarkNode } from "~/types/bookmark";
 
 const TREE: ChromeBookmarkNode[] = [

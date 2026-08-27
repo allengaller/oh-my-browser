@@ -1,4 +1,4 @@
-import { syncAll, subscribeToChanges } from "~/modules/bookmark-sync";
+import { syncAll, subscribeToChanges } from "~/lib/bookmark-sync";
 
 export default defineBackground(() => {
   // 启动时全量同步

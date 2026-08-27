@@ -10,7 +10,7 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["text", "html"],
-      include: ["src/modules/**", "src/utils/**", "src/entrypoints/popup/components/**"],
+      include: ["src/lib/**", "src/utils/**", "src/entrypoints/popup/components/**"],
       exclude: ["**/*.d.ts", "**/types/**"],
     },
   },

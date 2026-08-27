@@ -2,8 +2,8 @@ import { useEffect, useState, useMemo } from "react";
 import { SearchBox } from "./components/SearchBox";
 import { BookmarkItem } from "./components/BookmarkItem";
 import { EmptyState } from "./components/EmptyState";
-import { getAllBookmarks } from "~/modules/storage";
-import { buildIndex, query, type SearchResult } from "~/modules/search";
+import { getAllBookmarks } from "~/lib/storage";
+import { buildIndex, query, type SearchResult } from "~/lib/search";
 import type { Bookmark } from "~/types/bookmark";
 
 export function App() {

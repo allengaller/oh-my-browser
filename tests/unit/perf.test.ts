@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { buildIndex, query } from "~/modules/search";
+import { buildIndex, query } from "~/lib/search";
 import type { Bookmark } from "~/types/bookmark";
 
 /**
