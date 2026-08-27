@@ -1,6 +1,6 @@
 # Oh My Bookmarks Sprint 2 设计：去重 + 站点聚合（含技术债）
 
-> **状态**：Draft v1（brainstorming 评审通过，待用户最终评审）
+> **状态**：Sprint 2 已完成
 
 ## 1. 背景与目标
 

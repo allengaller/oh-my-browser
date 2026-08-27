@@ -1,7 +1,7 @@
 # oh-my-bookmarks 设计文档
 
 **日期**：2026-08-13
-**状态**：Sprint 0+1 已完成
+**状态**：Sprint 0-2 已完成
 **作者**：Qoder × allengaller
 
 ---

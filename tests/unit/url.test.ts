@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { normalizeUrl } from "~/utils/url";
+import { normalizeUrl, siteKey } from "~/lib/url";
 
 describe("normalizeUrl", () => {
   it("lowercases the protocol and host", () => {
@@ -37,5 +37,35 @@ describe("normalizeUrl", () => {
 
   it("handles invalid URLs gracefully by returning the stripped input", () => {
     expect(normalizeUrl("not a url")).toBe("not a url");
+  });
+});
+
+describe("url.siteKey", () => {
+  it("extracts eTLD+1 from www subdomain", () => {
+    expect(siteKey("https://www.solidot.org/story/123")).toBe("solidot.org");
+  });
+
+  it("merges subdomains under the same eTLD+1", () => {
+    expect(siteKey("http://news.solidot.org/")).toBe("solidot.org");
+  });
+
+  it("handles multi-level public suffixes", () => {
+    expect(siteKey("https://www.bbc.co.uk/news")).toBe("bbc.co.uk");
+  });
+
+  it("handles com.cn public suffix", () => {
+    expect(siteKey("https://a.b.example.com.cn/x")).toBe("example.com.cn");
+  });
+
+  it("returns null for invalid URLs", () => {
+    expect(siteKey("not a url")).toBeNull();
+  });
+
+  it("returns null for localhost", () => {
+    expect(siteKey("http://localhost:3000")).toBeNull();
+  });
+
+  it("returns null for empty string", () => {
+    expect(siteKey("")).toBeNull();
   });
 });
