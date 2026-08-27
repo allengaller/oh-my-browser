@@ -19,8 +19,11 @@ test.describe("oh-my-bookmarks popup", () => {
 
     try {
       // MV3 service workers register asynchronously after the extension loads.
-      // Wait for it explicitly instead of polling context.serviceWorkers().
-      const sw = await context.waitForEvent("serviceworker", { timeout: 15000 });
+      // Check if already registered, otherwise wait for the event.
+      let sw = context.serviceWorkers()[0];
+      if (!sw) {
+        sw = await context.waitForEvent("serviceworker", { timeout: 30000 });
+      }
 
       // Open the popup by navigating to its HTML directly (bypassing the
       // browser action click, which is unreliable in headless mode).
