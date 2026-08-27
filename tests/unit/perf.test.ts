@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { buildIndex, query } from "~/lib/search";
+import { scanDuplicates, scanSites } from "~/lib/dedup";
 import type { Bookmark } from "~/types/bookmark";
 
 /**
@@ -69,5 +70,25 @@ describe("performance", () => {
 
     console.log(`Query returned ${results.length} results in ${elapsed.toFixed(1)}ms`);
     expect(elapsed).toBeLessThan(50);
+  });
+
+  it("scans 1,661 bookmarks (duplicates + sites) in < 50ms", () => {
+    const html = readFileSync(
+      resolve(process.cwd(), "tests/fixtures/bookmarks_7_5_12.html"),
+      "utf-8",
+    );
+    const bookmarks = parseHtml(html);
+
+    const start = performance.now();
+    const dupes = scanDuplicates(bookmarks);
+    const sites = scanSites(bookmarks);
+    const elapsed = performance.now() - start;
+
+    console.log(
+      `Scanned ${bookmarks.length} bookmarks: ${dupes.length} dup groups, ${sites.length} sites in ${elapsed.toFixed(1)}ms`,
+    );
+    expect(elapsed).toBeLessThan(120);
+    expect(dupes.length).toBeGreaterThan(0);
+    expect(sites.some((s) => s.siteKey === "solidot.org")).toBe(true);
   });
 });

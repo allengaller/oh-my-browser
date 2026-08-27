@@ -26,31 +26,72 @@ const TRACKING_PARAMS = new Set([
  * 对解析失败的原样返回。
  */
 export function normalizeUrl(input: string): string {
-  let url: URL;
-  try {
-    url = new URL(input);
-  } catch {
-    return input.trim();
-  }
+  // Manual URL parsing to avoid slow jsdom URL constructor (~312ms for 1663 URLs).
+  const trimmed = input.trim();
+  const protoEnd = trimmed.indexOf("://");
+  if (protoEnd < 0) return trimmed;
 
-  url.protocol = url.protocol.toLowerCase();
-  url.hostname = url.hostname.toLowerCase();
-  url.hash = "";
+  const protocol = trimmed.substring(0, protoEnd + 3).toLowerCase();
+  const rest = trimmed.substring(protoEnd + 3);
 
-  const params = new URLSearchParams(url.search);
-  const filtered = new URLSearchParams();
-  for (const [key, value] of [...params.entries()].sort(([a], [b]) => a.localeCompare(b))) {
-    if (!TRACKING_PARAMS.has(key.toLowerCase())) {
-      filtered.append(key, value);
+  // Split host from rest at first '/', '?', or '#'
+  const slashIdx = rest.indexOf("/");
+  const qIdx = rest.indexOf("?");
+  const hIdx = rest.indexOf("#");
+  const splitIdx = Math.min(
+    slashIdx >= 0 ? slashIdx : Infinity,
+    qIdx >= 0 ? qIdx : Infinity,
+    hIdx >= 0 ? hIdx : Infinity,
+  );
+
+  const host =
+    splitIdx === Infinity ? rest.toLowerCase() : rest.substring(0, splitIdx).toLowerCase();
+  let pathAndQuery = splitIdx === Infinity ? "" : rest.substring(splitIdx);
+
+  // Strip hash
+  const hashIdx = pathAndQuery.indexOf("#");
+  if (hashIdx >= 0) pathAndQuery = pathAndQuery.substring(0, hashIdx);
+
+  let path: string;
+  let queryStr: string;
+
+  if (!pathAndQuery) {
+    path = "/";
+    queryStr = "";
+  } else if (pathAndQuery.startsWith("?")) {
+    path = "/";
+    queryStr = pathAndQuery.substring(1);
+  } else {
+    const pqSplit = pathAndQuery.indexOf("?");
+    if (pqSplit >= 0) {
+      path = pathAndQuery.substring(0, pqSplit);
+      queryStr = pathAndQuery.substring(pqSplit + 1);
+    } else {
+      path = pathAndQuery;
+      queryStr = "";
+    }
+    if (path.endsWith("/") && path !== "/" && path.length > 1) {
+      path = path.replace(/\/+$/, "");
     }
   }
-  url.search = filtered.toString();
 
-  if (url.pathname.endsWith("/") && url.pathname !== "/") {
-    url.pathname = url.pathname.replace(/\/+$/, "");
+  let result = protocol + host + path;
+
+  if (queryStr) {
+    const params = new URLSearchParams(queryStr);
+    if (params.size > 0) {
+      const filtered = new URLSearchParams();
+      for (const [key, value] of [...params.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+        if (!TRACKING_PARAMS.has(key.toLowerCase())) {
+          filtered.append(key, value);
+        }
+      }
+      const cleanQuery = filtered.toString();
+      if (cleanQuery) result += "?" + cleanQuery;
+    }
   }
 
-  return url.toString();
+  return result;
 }
 
 /**
